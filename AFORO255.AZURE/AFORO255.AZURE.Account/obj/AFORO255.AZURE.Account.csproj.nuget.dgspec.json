@@ -1,0 +1,76 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\david.garcial\\Desktop\\course\\AFORO255-MICROSERVICES\\AFORO255.AZURE\\AFORO255.AZURE.Account\\AFORO255.AZURE.Account.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\david.garcial\\Desktop\\course\\AFORO255-MICROSERVICES\\AFORO255.AZURE\\AFORO255.AZURE.Account\\AFORO255.AZURE.Account.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\david.garcial\\Desktop\\course\\AFORO255-MICROSERVICES\\AFORO255.AZURE\\AFORO255.AZURE.Account\\AFORO255.AZURE.Account.csproj",
+        "projectName": "AFORO255.AZURE.Account",
+        "projectPath": "C:\\Users\\david.garcial\\Desktop\\course\\AFORO255-MICROSERVICES\\AFORO255.AZURE\\AFORO255.AZURE.Account\\AFORO255.AZURE.Account.csproj",
+        "packagesPath": "C:\\Users\\david.garcial\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\david.garcial\\Desktop\\course\\AFORO255-MICROSERVICES\\AFORO255.AZURE\\AFORO255.AZURE.Account\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\david.garcial\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Users\\david.garcial\\Desktop\\Blitz\\packages": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.0.90, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.203\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

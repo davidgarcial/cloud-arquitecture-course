@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31229.75
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.- Security", "1.- Security", "{031EC090-2491-436A-AFB5-DB55C24F764A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.- Account", "2.- Account", "{0B9D25D9-928B-4FBA-B907-CE5CC19411AC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.- Transaction", "3.- Transaction", "{46FCB684-84B2-431F-AAC0-CEBF0FF5CFB2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.- Report", "4.- Report", "{2BB10731-94F5-4A7B-B96A-CD11E4CC18B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AFORO255.AZURE.Account", "AFORO255.AZURE.Account\AFORO255.AZURE.Account.csproj", "{5F13FD63-183E-4242-A274-C2EC611E3910}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5F13FD63-183E-4242-A274-C2EC611E3910}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F13FD63-183E-4242-A274-C2EC611E3910}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F13FD63-183E-4242-A274-C2EC611E3910}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F13FD63-183E-4242-A274-C2EC611E3910}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5F13FD63-183E-4242-A274-C2EC611E3910} = {031EC090-2491-436A-AFB5-DB55C24F764A}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1E74587B-DA62-45D5-956C-70CAFFAE9C16}
+	EndGlobalSection
+EndGlobal
