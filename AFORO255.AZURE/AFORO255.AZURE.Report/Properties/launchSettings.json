@@ -4,17 +4,17 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:58134",
+      "applicationUrl": "http://localhost:50065",
       "sslPort": 0
     }
   },
   "profiles": {
-    "AFORO255.AZURE.Account": {
+    "AFORO255.AZURE.Report": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": false,
       "launchUrl": "",
-      "applicationUrl": "http://localhost:5002",
+      "applicationUrl": "http://localhost:5004",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
