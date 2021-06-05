@@ -1,3 +1,4 @@
+using AFORO255.AZURE.Account.Helper;
 using AFORO255.AZURE.Account.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,6 +29,7 @@ namespace AFORO255.AZURE.Account
 
             services.AddControllers();
             services.AddSingleton<IAccountRepository, AccountRepository>();
+            services.AddSingleton<ISuscribeTransaction, SuscribeTransaction>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +48,11 @@ namespace AFORO255.AZURE.Account
             {
                 endpoints.MapControllers();
             });
+
+            ISuscribeTransaction subscription =
+                app.ApplicationServices.GetService<ISuscribeTransaction>();
+            subscription.Process().GetAwaiter().GetResult();
+
         }
     }
 }

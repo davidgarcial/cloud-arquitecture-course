@@ -1,0 +1,233 @@
+SESION 01
+========
+
+
+DB_ACCOUNT
+
+====================================
+
+
+CREATE TABLE Customer(
+    IdCustomer INT PRIMARY KEY,
+    FullName VARCHAR(150)
+);
+
+select * from Customer;
+
+INSERT INTO Customer VALUES(1,'Ivan Cuadros Altamirano');
+INSERT INTO Customer VALUES(2,'Leonel Messi');
+INSERT INTO Customer VALUES(3,'Paolo Guerrero');
+INSERT INTO Customer VALUES(4,'Andrea Pirlo');
+INSERT INTO Customer VALUES(5,'Renato Tapia');
+
+CREATE TABLE Account(
+    IdAccount INT PRIMARY KEY, 
+    TotalAmount NUMERIC(18,2),
+    IdCustomer INT
+);
+
+INSERT INTO Account VALUES(1,1000,1);
+INSERT INTO Account VALUES(2,5000,1);
+INSERT INTO Account VALUES(3,300,2);
+INSERT INTO Account VALUES(4,600,1);
+INSERT INTO Account VALUES(5,400,2);
+INSERT INTO Account VALUES(6,100,1);
+INSERT INTO Account VALUES(7,1000,3);
+INSERT INTO Account VALUES(8,2000,4);
+INSERT INTO Account VALUES(9,5000,5);
+INSERT INTO Account VALUES(10,1000,2);
+
+SELECT * FROM Account;
+
+ALTER TABLE Account
+ADD FOREIGN KEY (IdCustomer) REFERENCES Customer(IdCustomer);
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'SP_LIST_ACCOUNT') AND type in (N'P', N'PC'))
+  DROP PROCEDURE [dbo].[SP_LIST_ACCOUNT]
+GO
+
+CREATE PROCEDURE SP_LIST_ACCOUNT
+AS
+BEGIN
+    SELECT 
+        A.IdAccount, 
+        A.TotalAmount, 
+        C.IdCustomer, 
+        C.FullName 
+    FROM Account AS A
+    INNER JOIN Customer AS C
+    ON A.IdCustomer = C.IdCustomer
+END
+GO
+
+EXEC SP_LIST_ACCOUNT;
+
+================================
+
+
+AFORO255-MICROSERVICES
+
+
+
+=================================
+
+
+
+AFORO255.AZURE
+
+AFORO255.AZURE.Account
+
+
+
+{
+  "ConnectionStrings": {
+    "Account": ""
+  }
+}
+
+
+NUGET
+
+System.Data.SqlClient  
+
+Dapper
+
+
+
+
+=========================
+
+
+namespace AFORO255.AZURE.Account.Models
+{
+    public class Account
+    {
+        public int IdAccount { get; set; }
+        public decimal TotalAmount { get; set; }
+        public int IdCustomer { get; set; }
+        public string FullName { get; set; }
+
+    }
+}
+
+
+
+===========================
+
+
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace AFORO255.AZURE.Account.Repositories
+{
+    public interface IAccountRepository
+    {
+        Task<IEnumerable<Models.Account>> GetAccounts();
+        Task<bool> UpdateAccount(int idAccount, decimal amount);
+    }
+}
+
+
+
+===============================
+
+
+using Dapper;
+using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Threading.Tasks;
+
+namespace AFORO255.AZURE.Account.Repositories
+{
+    public class AccountRepository : IAccountRepository
+    {
+        private readonly IConfiguration _configuration;
+
+        public AccountRepository(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+        public async Task<IEnumerable<Models.Account>> GetAccounts()
+        {
+            var sp = "SP_LIST_ACCOUNT";
+            var cn = new SqlConnection(_configuration.GetConnectionString("Account"));
+            var result = await cn.QueryAsync<Models.Account>(
+                    sp,
+                    null,
+                    commandType: CommandType.StoredProcedure
+                );
+
+            return result;
+
+        }
+
+        public async Task<bool> UpdateAccount(int idAccount, decimal amount)
+        {
+            var sp = "SP_UPDATE_ACCOUNT";
+            var parameters = new DynamicParameters();
+            parameters.Add("IDACCOUNT", idAccount);
+            parameters.Add("AMOUNT", amount);
+            var cn = new SqlConnection(_configuration.GetConnectionString("Account"));
+            await cn.ExecuteAsync(
+                    sp,
+                    parameters,
+                    commandType: CommandType.StoredProcedure
+                );
+
+            return true;
+        }
+    }
+}
+
+
+===========================
+
+
+ public void ConfigureServices(IServiceCollection services)
+        {
+
+            services.AddControllers();
+            services.AddSingleton<IAccountRepository, AccountRepository>();
+        }
+
+
+===============================
+
+
+using AFORO255.AZURE.Account.Repositories;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+
+namespace AFORO255.AZURE.Account.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AccountController : ControllerBase
+    {
+        private readonly IAccountRepository _accountRepository;
+
+        public AccountController(IAccountRepository accountRepository)
+        {
+            _accountRepository = accountRepository;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            return Ok(await _accountRepository.GetAccounts());
+        }
+
+    }
+}
+
+
+================== 
+
+http://localhost:5002/api/account
+
+
+
+ 

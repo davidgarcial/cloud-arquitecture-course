@@ -1,14 +1,12 @@
+using AFORO255.AZURE.Security.Components;
+using AFORO255.AZURE.Security.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AFORO255.AZURE.Security
 {
@@ -26,6 +24,16 @@ namespace AFORO255.AZURE.Security
         {
 
             services.AddControllers();
+
+            services.AddDbContext<SecurityContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("Security")));
+
+            services.AddIdentity<IdentityUser, IdentityRole>(
+                                options => options.SignIn.RequireConfirmedAccount = false
+                            ).AddEntityFrameworkStores<SecurityContext>();
+
+            services.AddScoped<IJwtGenerator, JwtGenerator>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
