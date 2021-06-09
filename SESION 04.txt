@@ -1,0 +1,271 @@
+SESION 04
+========
+
+
+SEGURIDAD
+
+Microsoft.AspNetCore.Authentication.JwtBearer
+
+
+"JwtKey": "Aforo255#YoAprendoEnCasa"
+
+
+public void ConfigureServices(IServiceCollection services)
+        {
+
+            //services.AddControllers();
+            services.AddControllers(
+                opt =>
+                {
+                    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                    opt.Filters.Add(new AuthorizeFilter(policy));
+                });
+
+
+            services.AddSingleton<IAccountRepository, AccountRepository>();
+            services.AddSingleton<ISuscribeTransaction, SuscribeTransaction>();
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtKey"]));
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(opt =>
+                {
+                    opt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = key,
+                        ValidateAudience = false,
+                        ValidateIssuer = false
+                    };
+                });
+
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
+            ISuscribeTransaction subscription =
+                app.ApplicationServices.GetService<ISuscribeTransaction>();
+            subscription.Process().GetAwaiter().GetResult();
+
+        }
+
+
+
+FUNCIONES
+
+
+
+AFORO255.AZURE.Subscribe
+
+
+
+Microsoft.Azure.WebJobs.Extensions.ServiceBus  
+
+
+
+
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "CnBus": ""
+  }
+}
+
+
+Transaction
+
+
+
+using Microsoft.Azure.WebJobs;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+
+namespace AFORO255.AZURE.Subscribe
+{
+    public static class Transaction
+    {
+        [FunctionName("Transaction")]
+        public static void Run([ServiceBusTrigger("transaction-topic", "report-subscription", Connection = "CnBus")]string mySbMsg, ILogger log)
+        {
+            log.LogInformation($"C# ServiceBus topic trigger function processed message: {mySbMsg}");
+
+            var data = JsonConvert.DeserializeObject<TransactionRequest>(mySbMsg);
+            log.LogInformation($"La cuenta es: {data.AccountId}, se realizara un {data.Type} de {data.Amount} USD");
+
+        }
+
+
+        public class TransactionRequest
+        {
+            public int Id { get; set; }
+            public int IdTransaction { get; set; }
+            public decimal Amount { get; set; }
+            public string Type { get; set; }
+            public string CreationDate { get; set; }
+            public int AccountId { get; set; }
+        }
+
+    }
+}
+
+
+
+
+
+
+
+
+MongoDB.Driver  
+
+
+
+ "CnMongo": "",
+    "DatabaseMongo": "",
+    "CollectionMongo": ""
+
+
+
+
+
+
+
+using Microsoft.Azure.WebJobs;
+using Microsoft.Extensions.Logging;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
+using Newtonsoft.Json;
+using System;
+
+namespace AFORO255.AZURE.Subscribe
+{
+    public static class Transaction
+    {
+        [FunctionName("Transaction")]
+        public async static void Run([ServiceBusTrigger("transaction-topic", "report-subscription", Connection = "CnBus")]string mySbMsg, ILogger log)
+        {
+            log.LogInformation($"C# ServiceBus topic trigger function processed message: {mySbMsg}");
+
+            var data = JsonConvert.DeserializeObject<TransactionRequest>(mySbMsg);
+            log.LogInformation($"La cuenta es: {data.AccountId}, se realizara un {data.Type} de {data.Amount} USD");
+
+
+            log.LogInformation(" ==================================");
+            log.LogInformation("    Start proccess in database");
+            var cnMongo = Environment.GetEnvironmentVariable("CnMongo");
+            var databaseMongo = Environment.GetEnvironmentVariable("DatabaseMongo");
+            var collectionMongo = Environment.GetEnvironmentVariable("CollectionMongo");
+
+            MongoClient client = new MongoClient(cnMongo);
+            var database = client.GetDatabase(databaseMongo);
+            var collection = database.GetCollection<TransactionModel>(collectionMongo);
+
+            TransactionModel transactionModel = new TransactionModel()
+            {
+                IdTransaction = data.Id,
+                AccountId = data.AccountId,
+                Amount = data.Amount,
+                CreationDate = data.CreationDate,
+                Type = data.Type
+            };
+            await collection.InsertOneAsync(transactionModel);
+            log.LogInformation("        Created item in database with id: {0} \n", data.Id);
+            log.LogInformation("    End proccess in database");
+            log.LogInformation(" ==================================");
+
+        }
+
+
+        public class TransactionRequest
+        {
+            public int Id { get; set; }
+            public int IdTransaction { get; set; }
+            public decimal Amount { get; set; }
+            public string Type { get; set; }
+            public string CreationDate { get; set; }
+            public int AccountId { get; set; }
+        }
+
+
+        public class TransactionModel
+        {
+            [BsonId]
+            public ObjectId Id { get; set; }
+            public int IdTransaction { get; set; }
+            public decimal Amount { get; set; }
+            public string Type { get; set; }
+            public string CreationDate { get; set; }
+            public int AccountId { get; set; }
+        }
+
+
+    }
+}
+
+
+
+
+version: '3.4'
+
+services:
+  aforo255.azure.security:
+    image: ${DOCKER_REGISTRY-}aforo255azuresecurity
+    build:
+      context: .
+      dockerfile: AFORO255.AZURE.Security/Dockerfile
+    ports:
+    - 9001:80     
+
+  aforo255.azure.account:
+    image: ${DOCKER_REGISTRY-}aforo255azureaccount
+    build:
+      context: .
+      dockerfile: AFORO255.AZURE.Account/Dockerfile
+    ports:
+    - 9002:80   
+
+  aforo255.azure.transaction:
+    image: ${DOCKER_REGISTRY-}aforo255azuretransaction
+    build:
+      context: .
+      dockerfile: AFORO255.AZURE.Transaction/Dockerfile
+    ports:
+    - 9003:80   
+
+  aforo255.azure.report:
+    image: ${DOCKER_REGISTRY-}aforo255azurereport
+    build:
+      context: .
+      dockerfile: AFORO255.AZURE.Report/Dockerfile
+    ports:
+    - 9004:80   
+
+
+
+
+
+
+
+
+
+
+
+
+
+

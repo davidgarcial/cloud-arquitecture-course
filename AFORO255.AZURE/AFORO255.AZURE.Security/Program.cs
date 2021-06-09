@@ -1,4 +1,4 @@
- using AFORO255.AZURE.Security.Repositories;
+using AFORO255.AZURE.Security.Repositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;

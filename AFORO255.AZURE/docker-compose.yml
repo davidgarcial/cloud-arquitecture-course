@@ -1,0 +1,34 @@
+version: '3.4'
+
+services:
+  aforo255.azure.security:
+    image: ${DOCKER_REGISTRY-}aforo255azuresecurity
+    build:
+      context: .
+      dockerfile: AFORO255.AZURE.Security/Dockerfile
+    ports:
+    - 9001:80     
+
+  aforo255.azure.account:
+    image: ${DOCKER_REGISTRY-}aforo255azureaccount
+    build:
+      context: .
+      dockerfile: AFORO255.AZURE.Account/Dockerfile
+    ports:
+    - 9002:80   
+
+  aforo255.azure.transaction:
+    image: ${DOCKER_REGISTRY-}aforo255azuretransaction
+    build:
+      context: .
+      dockerfile: AFORO255.AZURE.Transaction/Dockerfile
+    ports:
+    - 9003:80   
+
+  aforo255.azure.report:
+    image: ${DOCKER_REGISTRY-}aforo255azurereport
+    build:
+      context: .
+      dockerfile: AFORO255.AZURE.Report/Dockerfile
+    ports:
+    - 9004:80   
