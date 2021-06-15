@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AFORO255.AZURE\AFORO255.AZURE.Report\AFORO255.AZURE.Report.csproj" />
+    <ProjectReference Include="..\AFORO255.AZURE.Report\AFORO255.AZURE.Report.csproj" />
   </ItemGroup>
 
 </Project>

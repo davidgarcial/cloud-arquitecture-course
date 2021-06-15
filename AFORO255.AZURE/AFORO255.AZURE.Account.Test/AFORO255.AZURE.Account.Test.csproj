@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AFORO255.AZURE\AFORO255.AZURE.Account\AFORO255.AZURE.Account.csproj" />
+    <ProjectReference Include="..\AFORO255.AZURE.Account\AFORO255.AZURE.Account.csproj" />
   </ItemGroup>
 
   <ItemGroup>

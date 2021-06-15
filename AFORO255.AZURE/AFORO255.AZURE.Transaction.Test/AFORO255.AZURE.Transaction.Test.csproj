@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AFORO255.AZURE\AFORO255.AZURE.Transaction\AFORO255.AZURE.Transaction.csproj" />
+    <ProjectReference Include="..\AFORO255.AZURE.Transaction\AFORO255.AZURE.Transaction.csproj" />
   </ItemGroup>
 
 </Project>
