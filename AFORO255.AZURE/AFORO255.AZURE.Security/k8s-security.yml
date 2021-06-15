@@ -1,0 +1,40 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment-security
+  labels:
+    app: service-security
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: service-security
+  template:
+    metadata:
+      labels:
+        app: service-security
+    spec:
+      containers:
+      - name: service-security
+        image: registrydagl.azurecr.io/aforo255azuresecurity:__Build.BuildId__
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Production"
+      imagePullSecrets:
+      - name: aforo.com
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: app-service-security
+spec:
+  type: LoadBalancer
+  selector:
+    app: service-security
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    name: http

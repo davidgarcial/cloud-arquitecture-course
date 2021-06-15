@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   aforo255.azure.security:
-    image: ${DOCKER_REGISTRY-}aforo255azuresecurity
+    image: ${DOCKER_REGISTRY-}aforo255azuresecurity:__Build.BuildId__
     build:
       context: .
       dockerfile: AFORO255.AZURE.Security/Dockerfile
@@ -10,7 +10,7 @@ services:
     - 9001:80     
 
   aforo255.azure.account:
-    image: ${DOCKER_REGISTRY-}aforo255azureaccount
+    image: ${DOCKER_REGISTRY-}aforo255azureaccount:__Build.BuildId__
     build:
       context: .
       dockerfile: AFORO255.AZURE.Account/Dockerfile
@@ -18,7 +18,7 @@ services:
     - 9002:80   
 
   aforo255.azure.transaction:
-    image: ${DOCKER_REGISTRY-}aforo255azuretransaction
+    image: ${DOCKER_REGISTRY-}aforo255azuretransaction:__Build.BuildId__
     build:
       context: .
       dockerfile: AFORO255.AZURE.Transaction/Dockerfile
@@ -26,7 +26,7 @@ services:
     - 9003:80   
 
   aforo255.azure.report:
-    image: ${DOCKER_REGISTRY-}aforo255azurereport
+    image: ${DOCKER_REGISTRY-}aforo255azurereport:__Build.BuildId__
     build:
       context: .
       dockerfile: AFORO255.AZURE.Report/Dockerfile

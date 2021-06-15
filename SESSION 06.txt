@@ -1,0 +1,205 @@
+SESION 06
+=========
+
+k8s-security.yml
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment-security
+  labels:
+    app: service-security
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: service-security
+  template:
+    metadata:
+      labels:
+        app: service-security
+    spec:
+      containers:
+      - name: service-security
+        image: registrybank.azurecr.io/aforo255azuresecurity:__Build.BuildId__
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Production"
+      imagePullSecrets:
+      - name: aforo.com
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: app-service-security
+spec:
+  type: LoadBalancer
+  selector:
+    app: service-security
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    name: http
+
+
+
+===========================
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment-transaction
+  labels:
+    app: service-transaction
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: service-transaction
+  template:
+    metadata:
+      labels:
+        app: service-transaction
+    spec:
+      containers:
+      - name: service-transaction
+        image: registrybank.azurecr.io/aforo255azuretransaction:__Build.BuildId__
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Production"
+      imagePullSecrets:
+      - name: aforo.com
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: app-service-transaction
+spec:
+  type: LoadBalancer
+  selector:
+    app: service-transaction
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    name: http
+
+
+
+
+============================
+
+
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment-account
+  labels:
+    app: service-account
+spec:
+  replicas: 3
+  strategy:
+    rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: service-account
+  template:
+    metadata:
+      labels:
+        app: service-account
+    spec:
+      containers:
+      - name: service-account
+        image: registrybank.azurecr.io/aforo255azureaccount:__Build.BuildId__
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Production"
+      imagePullSecrets:
+      - name: aforo.com
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: app-service-account
+spec:
+  type: LoadBalancer
+  selector:
+    app: service-account
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    name: http
+
+
+================================
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment-report
+  labels:
+    app: service-report
+spec:
+  replicas: 3
+  strategy:
+    rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: service-report
+  template:
+    metadata:
+      labels:
+        app: service-report
+    spec:
+      containers:
+      - name: service-report
+        image: registrybank.azurecr.io/aforo255azurereport:__Build.BuildId__
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Production"
+      imagePullSecrets:
+      - name: aforo.com
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: app-service-report
+spec:
+  type: LoadBalancer
+  selector:
+    app: service-report
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    name: http
+
+
+
+

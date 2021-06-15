@@ -1,0 +1,45 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment-report
+  labels:
+    app: service-report
+spec:
+  replicas: 3
+  strategy:
+    rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: service-report
+  template:
+    metadata:
+      labels:
+        app: service-report
+    spec:
+      containers:
+      - name: service-report
+        image: registrydagl.azurecr.io/aforo255azurereport:__Build.BuildId__
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Production"
+      imagePullSecrets:
+      - name: aforo.com
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: app-service-report
+spec:
+  type: LoadBalancer
+  selector:
+    app: service-report
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    name: http
