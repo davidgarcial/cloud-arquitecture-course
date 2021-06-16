@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "AFORO255.AZURE.Subscribe": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "httpPort": 30897,
+      "useSSL": false
+    }
+  }
+}

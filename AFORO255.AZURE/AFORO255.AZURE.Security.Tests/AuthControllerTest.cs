@@ -1,6 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AFORO255.AZURE.Security.Test
+namespace AFORO255.AZURE.Security.Tests
 {
     [TestClass]
     public class AuthControllerTest
