@@ -26,7 +26,8 @@ namespace AFORO255.AZURE.Security
             services.AddControllers();
 
             services.AddDbContext<SecurityContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("Security")));
+                options => options.UseSqlServer(Configuration.GetConnectionString("Security"))
+            );
 
             services.AddIdentity<IdentityUser, IdentityRole>(
                                 options => options.SignIn.RequireConfirmedAccount = false

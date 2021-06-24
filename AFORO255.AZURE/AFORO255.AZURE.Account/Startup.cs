@@ -51,6 +51,7 @@ namespace AFORO255.AZURE.Account
                     };
                 });
 
+            services.AddAzureAppConfiguration();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +62,7 @@ namespace AFORO255.AZURE.Account
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseAzureAppConfiguration();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

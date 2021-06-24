@@ -58,6 +58,8 @@ namespace AFORO255.AZURE.Transaction
                         ValidateIssuer = false
                     };
                 });
+
+            services.AddAzureAppConfiguration();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,6 +70,7 @@ namespace AFORO255.AZURE.Transaction
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseAzureAppConfiguration();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
