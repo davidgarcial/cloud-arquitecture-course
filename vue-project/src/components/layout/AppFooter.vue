@@ -1,0 +1,21 @@
+<template>
+  <div class="page1__footer">
+    <section class="section1">
+      <div class="section1__align">
+        <div class="section1__main">
+          <div class="item__list">
+            <div class="item"><span>Aforo255 / Todos los derechos reservados / 2020</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style>
+
+</style>
