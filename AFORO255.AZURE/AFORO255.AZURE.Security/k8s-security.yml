@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: service-security
-        image: registrydagl.azurecr.io/aforo255azuresecurity:__Build.BuildId__
+        image: registrybank.azurecr.io/aforo255azuresecurity:__Build.BuildId__
         ports:
         - containerPort: 80
         env:

@@ -11,9 +11,9 @@ namespace AFORO255.AZURE.Report.Tests
     public class ReportControllerTest
     {
 
-        IConfiguration configuration;
-        MongoRepository<Movement> mongoRepository;
-        ReportController reportController;
+        //IConfiguration configuration;
+        //MongoRepository<Movement> mongoRepository;
+        //ReportController reportController;
         public ReportControllerTest()
         {
             //configuration = new ConfigurationBuilder()

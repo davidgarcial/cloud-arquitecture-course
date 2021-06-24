@@ -1,6 +1,7 @@
 using AFORO255.AZURE.Security.Repositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -37,6 +38,21 @@ namespace AFORO255.AZURE.Security
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.ConfigureAppConfiguration((host, config) =>
+                    {
+                        var settings = config.Build();
+                        //config.AddAzureAppConfiguration(settings["CloudConfig:Url"]);
+                        config.AddAzureAppConfiguration(options =>
+                        {
+                            options.Connect(settings["CloudConfig:Url"])
+                            .ConfigureRefresh(refresh =>
+                            {
+                                refresh.Register("Version", true)
+                                   .SetCacheExpiration(TimeSpan.FromSeconds(5));
+                            });
+                        });
+
+                    });
                     webBuilder.UseStartup<Startup>();
                 });
     }

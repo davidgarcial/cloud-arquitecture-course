@@ -53,6 +53,12 @@ namespace AFORO255.AZURE.Report
                         ValidateIssuer = false
                     };
                 });
+
+            services.AddDistributedRedisCache(o =>
+            {
+                o.Configuration = Configuration["Redis:Cn"];
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

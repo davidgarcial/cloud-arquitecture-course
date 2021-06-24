@@ -34,6 +34,7 @@ namespace AFORO255.AZURE.Security
 
             services.AddScoped<IJwtGenerator, JwtGenerator>();
 
+            services.AddAzureAppConfiguration();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +44,8 @@ namespace AFORO255.AZURE.Security
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseAzureAppConfiguration();
 
             app.UseRouting();
 
