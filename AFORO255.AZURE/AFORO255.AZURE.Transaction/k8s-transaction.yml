@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: service-transaction
-        image: registrybank.azurecr.io/aforo255azuretransaction:__Build.BuildId__
+        image: registrydagl.azurecr.io/aforo255azuretransaction:__Build.BuildId__
         ports:
         - containerPort: 80
         env:

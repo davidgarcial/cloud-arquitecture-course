@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: service-account
-        image: registrybank.azurecr.io/aforo255azureaccount:__Build.BuildId__
+        image: registrydagl.azurecr.io/aforo255azureaccount:__Build.BuildId__
         ports:
         - containerPort: 80
         env:

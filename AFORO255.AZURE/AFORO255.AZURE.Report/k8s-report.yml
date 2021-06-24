@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: service-report
-        image: registrybank.azurecr.io/aforo255azurereport:__Build.BuildId__
+        image: registrydagl.azurecr.io/aforo255azurereport:__Build.BuildId__
         ports:
         - containerPort: 80
         env:
