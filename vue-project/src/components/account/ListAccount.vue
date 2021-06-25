@@ -18,20 +18,32 @@
           <th></th>
         </tr>
         <tr v-for="(item, index) in listAccount" :key="index">
-          <td>{{item.idAccount}}</td>
-          <td>{{item.totalAmount}}</td>
+          <td>{{ item.idAccount }}</td>
+          <td>{{ item.totalAmount }}</td>
           <td>-</td>
           <td>-</td>
           <td>-</td>
-          <td>{{item.fullName}}</td>
+          <td>{{ item.fullName }}</td>
           <td>
-            <router-link class="ligth" :to="`/account/transaction/deposit/${item.idAccount}`">Deposito</router-link>
+            <router-link
+              class="ligth"
+              :to="`/account/transaction/deposit/${item.idAccount}`"
+              >Deposito</router-link
+            >
           </td>
           <td>
-            <router-link class="ligth" :to="`/account/transaction/withdrawal/${item.idAccount}`">Retiro</router-link>
+            <router-link
+              class="ligth"
+              :to="`/account/transaction/withdrawal/${item.idAccount}`"
+              >Retiro</router-link
+            >
           </td>
           <td>
-            <router-link class="full" :to="`/account/listhistory/${item.idAccount}`">Ver Movimientos</router-link>
+            <router-link
+              class="full"
+              :to="`/account/listhistory/${item.idAccount}`"
+              >Ver Movimientos</router-link
+            >
           </td>
         </tr>
       </table>
@@ -51,8 +63,14 @@ export default {
   },
   methods: {
     getList() {
+      const headers = {
+        "content-type": "application/json",
+        "Ocp-Apim-Subscription-Key": this.$global.key,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      };
+
       this.$http
-        .get(`/account`)
+        .get(`account/account`, { headers: headers })
         .then((response) => {
           this.listAccount = response.data;
         })
@@ -64,5 +82,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -18,9 +18,10 @@
           <td>{{ item.amount }}</td>
           <td>{{ item.type }}</td>
           <td>{{ item.creationDate }}</td>
-          <td>{{ item.accountId }} </td>
+          <td>{{ item.accountId }}</td>
         </tr>
       </table>
+
       <!-- {{listHistory | Json}} -->
     </div>
   </div>
@@ -40,8 +41,14 @@ export default {
   },
   methods: {
     getList() {
+      const headers = {
+        "content-type": "application/json",
+        "Ocp-Apim-Subscription-Key": this.$global.key,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      };
+
       this.$http
-        .get(`/report/GetById/${this.id}`)
+        .get(`report/GetById/${this.id}`, { headers: headers })
         .then((response) => {
           this.listHistory = response.data;
         })
@@ -53,5 +60,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

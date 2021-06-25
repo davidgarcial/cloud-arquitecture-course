@@ -35,27 +35,36 @@ export default {
   data() {
     return {
       user: {
-        Email: 'icuadros@aforo255.com',
-        Password: '123',
+        Email: "icuadros@aforo255.com",
+        Password: "Aforo255#",
       },
     };
   },
   methods: {
     sendData() {
-      this.$http.post(`/auth`, this.user).then((response) => {
-          localStorage.setItem("user", JSON.stringify(response.data))
-          this.$emit('login')
+      const headers = {
+        headers: {
+          "content-type": "application/json",
+          "Ocp-Apim-Subscription-Key": this.$global.key,
+        },
+      };
+
+      this.$http
+        .post("security/auth", this.user, headers)
+        .then((response) => {
+          localStorage.setItem("user", JSON.stringify(response.data));
+          localStorage.setItem("token", response.data.token);
+          this.$emit("login");
         })
         .catch((e) => {
           console.log(e);
-        })
+        });
     },
     validDisabled() {
-      return !(this.user.Email && this.user.Password)
-    }
-  }
-}
+      return !(this.user.Email && this.user.Password);
+    },
+  },
+};
 </script>
 
-<style>
-</style>
+<style></style>
